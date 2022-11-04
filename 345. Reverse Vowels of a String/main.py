@@ -2,20 +2,36 @@
 
 def main(s):
     vowels = ['a','e','i','o','u','A','E','I','O','U']
-    finded = []
-
-    for letter in s:
-        if letter in vowels:
-            finded.append(letter)
-
+    p1 = 0
+    p2 = len(s)-1
     arr = list(s)
-    for i in range(len(arr)):
-        if arr[i] in vowels:
-            arr[i] = finded[-1]
-            finded.pop()
+
+    ok1 = True
+    ok2 = True
+
+    while p1 < p2:
+        ok1 = True
+        ok2 = True
+        if not (arr[p1] in vowels):
+            print(f'p1 = {p1}')
+            p1 += 1
+            ok1 = False
+        if not (arr[p2] in vowels):
+            print(f'p2 = {p2}')
+            p2 -= 1
+            ok2 = False
+        if ok1 and ok2:
+            presta = arr[p1]
+            arr[p1] = arr[p2]
+            arr[p2] = presta
+            p1 += 1
+            p2 -= 1
     return "".join(arr)
 
 
 
-s1 = 'hello wOrld'
+
+
+
+s1 = 'hello wOrlda'
 print(main(s1))
