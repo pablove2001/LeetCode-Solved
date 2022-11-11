@@ -1,34 +1,22 @@
-# Definition for a binary tree node.d
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        values = getVal(root, set())
-        if 'f' in values:
-            return False
-        for val in values:
-            if not findVal(root, val):
+        values = getVal(root, [])
+        for i in range(len(values)-1):
+            if values[i] >= values[i+1]:
                 return False
         return True
-    
-def findVal(root, val):
-    if val < root.val:
-        if root.left != None:
-            return findVal(root.left, val)
-        return False
-    if val > root.val:
-        if root.right != None:
-            return findVal(root.right, val)
-        return False
-    return True
+
 
 def getVal(root, values):
-    if root.val in values or 'f' in values:
-        values.add('f')
-        return values
-    else:
-        values.add(root.val)
     if root.left != None:
-        values = values.union(getVal(root.left, values)) 
+        values = getVal(root.left, values)
+    values.append(root.val)
     if root.right != None:
-        values = values.union(getVal(root.right, values))
+        values = getVal(root.right, values)
     return values
-
