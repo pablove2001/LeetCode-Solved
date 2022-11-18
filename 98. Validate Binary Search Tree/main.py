@@ -1,22 +1,16 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
+# Definition for a binary tree node.d
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        values = getVal(root, [])
-        for i in range(len(values)-1):
-            if values[i] >= values[i+1]:
+        arr = toArr(root, [])
+        for i in range(len(arr)-1):
+            if arr[i] >= arr[i+1]:
                 return False
         return True
-
-
-def getVal(root, values):
-    if root.left != None:
-        values = getVal(root.left, values)
-    values.append(root.val)
-    if root.right != None:
-        values = getVal(root.right, values)
-    return values
+        
+def toArr(root, arr):
+    if not root:
+        return arr
+    arr = toArr(root.left, arr)
+    arr.append(root.val)
+    return toArr(root.right, arr)
+    

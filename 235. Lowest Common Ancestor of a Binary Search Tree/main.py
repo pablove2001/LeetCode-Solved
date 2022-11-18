@@ -7,20 +7,8 @@
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        arr1 = getWay(root, p.val, []) + ['f']
-        arr2 = getWay(root, q.val, []) + ['f']
-        i = 0
-        while True:
-            if arr1[i] != arr2[i] or arr1[i] == 'f' or arr2[i] == 'f':
-                return arr1[i-1]
-            i += 1
-
-def getWay(root, num, arr):
-    if root == None:
-        return []
-    arr.append(root)
-    if num < root.val:
-        arr = getWay(root.left, num, arr)
-    elif num > root.val:
-        arr = getWay(root.right, num, arr)
-    return arr
+        if  p.val < root.val and q.val < root.val:
+            return self.lowestCommonAncestor(root.left, p, q)
+        elif p.val > root.val and q.val > root.val:
+            return self.lowestCommonAncestor(root.right, p, q)
+        return root
