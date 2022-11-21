@@ -1,27 +1,16 @@
-
-def main(mat, r, c):
-    if len(mat)*len(mat[0]) != r*c:
-        return mat
-    
-    values = []
-    for ir in range(len(mat)):
-        for ic in range(len(mat[0])):
-            values.append(mat[ir][ic])
-    
-    res = []
-    for ir in range(r):
-        res.append(values[(c*ir):(c*ir+c)])
-    
-    return res
-
-    
-
-    
-
-    
-
-mat = [[1,2],[3,4]]
-r = 1
-c = 4
-
-print(main(mat, r, c))
+class Solution:
+    def matrixReshape(self, mat: List[List[int]], r: int, c: int) -> List[List[int]]:
+        if len(mat)*len(mat[0]) != r*c:
+            return mat
+        
+        res = []
+        i = 0
+        for row in mat:
+            for val in row:
+                if i % c == 0:
+                    res.append([])
+                res[-1].append(val)
+                i += 1
+        
+        return res
+        
