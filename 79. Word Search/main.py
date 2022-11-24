@@ -1,31 +1,33 @@
-
-def main(board, word):
-    ROWS, COLS = len(board), len(board[0])
-    path = set()
-
-    def dfs(r,c,i):
-        if i==len(word):
-            return True
-        if (r < 0 or c < 0 or 
-            r >= ROWS or c >= COLS or 
-            word[i] != board[r][c] or 
-            (r, c) in path):
-            return False
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        def bt(r, c, word_idx):
+            if word_idx == len(word):
+                return True
+            
+            if not (0 <= r < len(board) and 0 <= c < len(board[0]) and board[r][c] == word[word_idx]):
+                return False
+            
+            board[r][c], initial_char = None, board[r][c]
+            
+            for (r2, c2) in ((r + 1, c), (r - 1, c), (r, c + 1), (r, c - 1)):
+                if bt(r2, c2, word_idx + 1):
+                    return True
+            
+            board[r][c] = initial_char
         
-        path.add((r, c))
-        res = (dfs(r + 1, c, i + 1) or 
-            dfs(r - 1, c, i + 1) or
-            dfs(r, c + 1, i + 1) or
-            dfs(r, c - 1, i + 1))
-        path.remove((r, c))
-        return res
-    
-    for r in range(ROWS):
-        for c in range(COLS):
-            if dfs(r, c, 0): return True
-    return False
-
-board1 = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]]
-word1 = "ABCCEDz"
-print(main(board1, word1))
+        word_counter = Counter(word)
+        board_counter = Counter(sum(board, []))
         
+        for char, word_char_count in word_counter.items():
+            if board_counter[char] < word_char_count:
+                return False
+
+        if word_counter[word[-1]] < word_counter[word[0]]:
+            word = word[::-1]
+        
+        for row_idx in range(len(board)):
+            for col_idx in range(len(board[0])):
+                if bt(row_idx, col_idx, 0):
+                    return True
+        
+        return False
